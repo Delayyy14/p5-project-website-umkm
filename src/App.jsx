@@ -25,7 +25,7 @@ const App = () => {
       name: "Sate Ayam Ponorogo",
       category: "Best Seller",
       price: "24.000, 20 Tusuk",
-      image: "/images/sate-ayam-menu.jpeg"
+      image: "/images/Sate-ayam-menu.jpeg"
     },
     {
       id: 2,
