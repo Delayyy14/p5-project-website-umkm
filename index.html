@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pak Hari 2 - Cita Rasa Asli Nusantara</title>
+    <meta name="description" content="Warung Sate Pak Hari 2 menjual Sate Ayam, Sate Tahu, dan Lontong dengan cita rasa asli nusantara." />
+    
+    <!-- Tailwind CSS CDN (For immediate styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'fore-green': '#1a4a2e',
+              'off-white': '#f5f0e8',
+              'accent-yellow': '#e8a020',
+            },
+            fontFamily: {
+              serif: ['Playfair Display', 'serif'],
+              sans: ['Lato', 'sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    
+    <style>
+      html { scroll-behavior: smooth; }
+      body { 
+        background-color: #FDFDFD; 
+        color: #1a4a2e;
+        font-family: 'Outfit', sans-serif;
+      }
+      h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', sans-serif; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
