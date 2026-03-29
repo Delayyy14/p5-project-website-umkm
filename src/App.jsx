@@ -25,21 +25,21 @@ const App = () => {
       name: "Sate Ayam Ponorogo",
       category: "Best Seller",
       price: "24.000, 20 Tusuk",
-      image: "/public/images/sate-ayam-menu.jpeg"
+      image: "/images/sate-ayam-menu.jpeg"
     },
     {
       id: 2,
       name: "Sate Tahu Ponorogo",
       category: "Second Best Seller",
       price: "8.000, 15 Tusuk",
-      image: "/public/images/Sate-tahu-menu.jpeg"
+      image: "/images/Sate-tahu-menu.jpeg"
     },
     {
       id: 3,
       name: "Lontong Daun",
       category: "Complement",
       price: "4.000, 1 Pcs",
-      image: "/public/images/Sate-lontong-menu.jpeg"
+      image: "/images/Sate-lontong-menu.jpeg"
     }
   ];
 
@@ -112,7 +112,7 @@ const App = () => {
         <div className="lg:w-1/2 relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#f5f0e8] rounded-full -z-10 blur-3xl opacity-50"></div>
           <img 
-            src="/public/images/sate-outlet.jpeg" 
+            src="/images/sate-outlet.jpeg" 
             alt="Hero Sate" 
             className="rounded-[40px] sm:rounded-[80px] w-full aspect-[4/5] lg:aspect-[3/4] object-cover shadow-2xl"
           />  
@@ -176,7 +176,7 @@ const App = () => {
           </div>
           <div className="lg:w-1/2 relative group">
             <img 
-              src="/public/images/foto-pelanggan.jpeg " 
+              src="/images/foto-pelanggan.jpeg" 
               alt="Grind Master" 
               className="rounded-[30px] sm:rounded-[50px] object-cover w-full aspect-square sm:aspect-video lg:aspect-square group-hover:scale-95 transition-transform duration-700" 
             />
