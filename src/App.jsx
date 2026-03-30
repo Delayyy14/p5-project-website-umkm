@@ -1,5 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ShoppingCart, Instagram, Phone, MapPin, MessageCircle, ChevronRight, Globe } from 'lucide-react';
+import { Menu, X, ShoppingCart, Instagram, Phone, MapPin, MessageCircle, ChevronRight, Globe, Star, Quote, Clock, Truck, Award, CheckCircle } from 'lucide-react';
+ 
+const Counter = ({ target, duration = 2000, suffix = "" }) => {
+  const [count, setCount] = React.useState(0);
+  const [hasStarted, setHasStarted] = React.useState(false);
+  const elementRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setHasStarted(true);
+      },
+      { threshold: 0.1 }
+    );
+    if (elementRef.current) observer.observe(elementRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  React.useEffect(() => {
+    if (!hasStarted) return;
+    
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      setCount(Math.floor(progress * target));
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  }, [hasStarted, target, duration]);
+
+  return <span ref={elementRef}>{count.toLocaleString('id-ID')}{suffix}</span>;
+};
 
 const App = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,14 +58,14 @@ const App = () => {
       id: 1,
       name: "Sate Ayam Ponorogo",
       category: "Best Seller",
-      price: "24.000, 20 Tusuk",
+      price: "15.000, 10 Tusuk",
       image: "/images/Sate-ayam-menu.jpeg"
     },
     {
       id: 2,
       name: "Sate Tahu Ponorogo",
       category: "Second Best Seller",
-      price: "8.000, 15 Tusuk",
+      price: "8.000, 10 Tusuk",
       image: "/images/Sate-tahu-menu.jpeg"
     },
     {
@@ -47,8 +81,8 @@ const App = () => {
     <div className="min-h-screen bg-[#FDFDFD] font-['Outfit'] text-[#1a4a2e] selection:bg-[#1a4a2e]/10 overflow-x-hidden">
       {/* Navbar */}
       <nav 
-        className={`sticky top-0 w-full z-50 transition-all duration-300 px-6 sm:px-12 py-4 ${
-          isScrolled ? 'bg-white/80 backdrop-blur-md border-b border-[#1a4a2e]/5' : 'bg-transparent'
+        className={`fixed top-0 w-full z-50 transition-all duration-500 px-6 sm:px-12 py-4 ${
+          isScrolled ? 'bg-white/70 backdrop-blur-xl border-b border-[#1a4a2e]/10 shadow-sm transition-all duration-500 py-3' : 'bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -69,8 +103,9 @@ const App = () => {
               <Globe size={14} />
               ID
             </div>
-            <button className="bg-[#1a4a2e] text-white px-6 py-2.5 rounded-full font-semibold text-xs tracking-widest uppercase hover:bg-[#153a24] transition-all shadow-xl shadow-[#1a4a2e]/10">Hi, user
-            </button>
+            <a href="https://shopee.co.id/universal-link/now-food/shop/22399358?deep_and_deferred=1&shareChannel=whatsapp" target="_blank" rel="noopener noreferrer" className="bg-[#1a4a2e] text-white px-6 py-2.5 rounded-full font-semibold text-xs tracking-widest uppercase hover:bg-[#153a24] transition-all shadow-xl shadow-[#1a4a2e]/10">
+              Pesan Sekarang
+            </a>
             <button 
               className="lg:hidden text-[#1a4a2e]"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -100,14 +135,6 @@ const App = () => {
           <p className="text-base sm:text-lg text-[#1a4a2e]/70 leading-relaxed max-w-lg mx-auto lg:mx-0">
             Dibuat dari daging ayam pilihan dan bumbu rempah asli Indonesia dengan resep rahasia yang diwariskan turun-temurun.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center lg:justify-start">
-            <a href="#menu" className="bg-[#1a4a2e] text-white px-10 py-4 rounded-full font-bold hover:shadow-2xl transition-all text-center uppercase tracking-widest text-xs flex items-center justify-center gap-2 group">
-              Lihat Menu <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a href="#tentang" className="border border-[#1a4a2e]/20 text-[#1a4a2e] px-10 py-4 rounded-full font-bold hover:bg-[#1a4a2e]/5 transition-all text-center uppercase tracking-widest text-xs">
-              Tentang Kami
-            </a>
-          </div>
         </div>
         <div className="lg:w-1/2 relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#f5f0e8] rounded-full -z-10 blur-3xl opacity-50"></div>
@@ -138,10 +165,17 @@ const App = () => {
                 <div className="relative overflow-hidden rounded-[32px] sm:rounded-[48px] bg-[#f9f9f9]">
                   <img src={item.image} alt={item.name} className="w-full aspect-[4/5] object-cover transition-transform duration-1000 group-hover:scale-105" />
                   <div className="absolute top-6 right-6">
-                    <span className="bg-white/90 backdrop-blur-sm shadow-xl px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest text-[#1a4a2e]">
+                    <span className="bg-[#1a4a2e] text-white shadow-xl px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest">
                       Rp {item.price}
                     </span>
                   </div>
+                  {item.category === "Best Seller" && (
+                    <div className="absolute top-6 left-6">
+                      <div className="bg-[#e8a020] text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] shadow-lg animate-pulse">
+                        Paling Laris ⚡
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="mt-8 space-y-2 px-2">
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#e8a020]">{item.category === "Best Seller" ? "Paling Laris" : item.category === "Complement" ? "Pelengkap" : item.category}</p>
@@ -149,6 +183,30 @@ const App = () => {
                   <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all text-[#1a4a2e]/50 hover:text-[#1a4a2e]">
                     Pesan Ke Keranjang +
                   </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Stats Section */}
+      <section className="py-20 bg-[#1a4a2e]/5 border-y border-[#1a4a2e]/5 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 relative z-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 text-center">
+            {[
+              { icon: <CheckCircle className="text-[#e8a020] mx-auto" />, target: 10, suffix: "K+", label: "Tusuk Terjual" },
+              { icon: <Award className="text-[#e8a020] mx-auto" />, target: 2020, suffix: "", label: "Tahun Berdiri" },
+              { icon: <Star className="text-[#e8a020] mx-auto" />, target: 500, suffix: "+", label: "Review Puas" },
+              { icon: <MapPin className="text-[#e8a020] mx-auto" />, target: 1, suffix: "", label: "Cabang Utama" }
+            ].map((stat, i) => (
+              <div key={i} className="space-y-4">
+                <div className="flex justify-center">{stat.icon}</div>
+                <div>
+                  <p className="text-4xl font-black text-[#1a4a2e] mb-1">
+                    <Counter target={stat.target} suffix={stat.suffix} />
+                  </p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#e8a020]">{stat.label}</p>
                 </div>
               </div>
             ))}
@@ -175,11 +233,115 @@ const App = () => {
             </button>
           </div>
           <div className="lg:w-1/2 relative group">
+            <div className="absolute -inset-4 bg-white/10 rounded-[40px] sm:rounded-[60px] blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <img 
               src="/images/foto-pelanggan.jpeg" 
               alt="Grind Master" 
-              className="rounded-[30px] sm:rounded-[50px] object-cover w-full aspect-square sm:aspect-video lg:aspect-square group-hover:scale-95 transition-transform duration-700" 
+              className="rounded-[30px] sm:rounded-[50px] object-cover w-full aspect-square sm:aspect-video lg:aspect-square group-hover:scale-95 transition-transform duration-700 shadow-2xl" 
             />
+          </div>
+        </div>
+      </section>
+      
+      {/* Order Process Section */}
+      <section className="py-24 px-6 sm:px-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-[#1a4a2e]/5 rounded-full flex items-center justify-center mx-auto mb-8 group-hover:bg-[#1a4a2e] group-hover:text-white transition-all duration-500 ring-4 ring-transparent group-hover:ring-[#1a4a2e]/10">
+                <Menu size={24} />
+              </div>
+              <h3 className="text-xl font-bold mb-4 uppercase tracking-wider">1. Pilih Menu</h3>
+              <p className="text-sm text-[#1a4a2e]/60 leading-relaxed max-w-[200px] mx-auto">Cek menu spesial kami di katalog online.</p>
+            </div>
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-[#1a4a2e]/5 rounded-full flex items-center justify-center mx-auto mb-8 group-hover:bg-[#e8a020] group-hover:text-white transition-all duration-500 ring-4 ring-transparent group-hover:ring-[#e8a020]/10">
+                <Truck size={24} />
+              </div>
+              <h3 className="text-xl font-bold mb-4 uppercase tracking-wider">2. Pesan & Bayar</h3>
+              <p className="text-sm text-[#1a4a2e]/60 leading-relaxed max-w-[200px] mx-auto">Pesan via WA/ShopeeFood & lakukan pembayaran.</p>
+            </div>
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-[#1a4a2e]/5 rounded-full flex items-center justify-center mx-auto mb-8 group-hover:bg-[#1a4a2e] group-hover:text-white transition-all duration-500 ring-4 ring-transparent group-hover:ring-[#1a4a2e]/10">
+                <ShoppingCart size={24} />
+              </div>
+              <h3 className="text-xl font-bold mb-4 uppercase tracking-wider">3. Siap Diantar</h3>
+              <p className="text-sm text-[#1a4a2e]/60 leading-relaxed max-w-[200px] mx-auto">Sate hangat siap diantar ke depan pintu rumahmu.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Testimonials Section */}
+      <section className="py-32 px-6 sm:px-12 bg-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-[#fdfdfd] to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl sm:text-7xl font-black text-[#1a4a2e] uppercase tracking-tighter">
+              Komentar <span className="text-[#e8a020]">Pelanggan</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+            {/* Testimonial 1 - Anisa Widiana (Provided) */}
+            <div className="lg:mt-12 bg-[#1a4a2e] text-white p-12 rounded-[80px_20px_80px_20px] shadow-2xl shadow-[#1a4a2e]/20 relative group hover:-translate-y-2 transition-transform duration-500">
+              <Quote className="absolute top-8 right-10 text-[#e8a020]/20 w-16 h-16" />
+              <div className="space-y-6 relative z-10">
+                <div className="flex gap-1 text-[#e8a020]">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
+                </div>
+                <p className="text-lg font-medium leading-relaxed italic">
+                  "Sate Tahunya enak, ternyata cabang yg di perempatan Jl Semeru. Dan keduanya enak. Pertama beli sate ayamnya kurang nendang. Tapi sekarang sudah diperbaiki jadi sudah enak. Harga terjangkau. 👍🏻"
+                </p>
+                <div className="flex items-center gap-4 pt-4 border-t border-white/10">
+                  <div className="w-12 h-12 bg-[#e8a020] rounded-full flex items-center justify-center font-black text-white">AW</div>
+                  <div>
+                    <h4 className="font-bold">Anisa Widiana</h4>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#e8a020] font-black">Local Guide • 478 Ulasan</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 2 - Bagus Pratama (Generated) */}
+            <div className="bg-[#f5f0e8] p-12 rounded-[20px_80px_20px_80px] border border-[#1a4a2e]/5 relative group hover:-translate-y-2 transition-transform duration-500">
+              <Quote className="absolute top-8 right-10 text-[#1a4a2e]/5 w-16 h-16" />
+              <div className="space-y-6 relative z-10">
+                <div className="flex gap-1 text-[#1a4a2e]">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
+                </div>
+                <p className="text-lg font-medium leading-relaxed italic text-[#1a4a2e]/80">
+                  "Sate favorit keluarga! Bumbu kacangnya juara, kental dan meresap sampai ke daging. Pelayanan cepat dan ramah banget."
+                </p>
+                <div className="flex items-center gap-4 pt-4 border-t border-[#1a4a2e]/10">
+                  <div className="w-12 h-12 bg-[#1a4a2e] rounded-full flex items-center justify-center font-black text-white">BP</div>
+                  <div>
+                    <h4 className="font-bold text-[#1a4a2e]">Bagus Pratama</h4>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#1a4a2e]/40 font-black">Pelanggan Setia</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 3 - Siti Aminah (Generated) */}
+            <div className="lg:mt-24 bg-white border-2 border-[#e8a020]/20 p-12 rounded-[80px_20px_80px_20px] shadow-xl relative group hover:-translate-y-2 transition-transform duration-500">
+              <Quote className="absolute top-8 right-10 text-[#e8a020]/10 w-16 h-16" />
+              <div className="space-y-6 relative z-10">
+                <div className="flex gap-1 text-[#e8a020]">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
+                </div>
+                <p className="text-lg font-medium leading-relaxed italic text-[#1a4a2e]/80">
+                  "Lontong daunnya pulen banget, dipadu Sate Tahu legendaris Pak Hari 2 memang kombinasi terbaik. Cocok buat langganan tiap sore sepulang kerja."
+                </p>
+                <div className="flex items-center gap-4 pt-4 border-t border-[#1a4a2e]/5">
+                  <div className="w-12 h-12 bg-[#f5f0e8] rounded-full flex items-center justify-center font-black text-[#1a4a2e]">SA</div>
+                  <div>
+                    <h4 className="font-bold text-[#1a4a2e]">Siti Aminah</h4>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#e8a020] font-black">Food Enthusiast</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -194,11 +356,14 @@ const App = () => {
                 Pengalaman kuliner sate nusantara kualitas premium. Menyajikan kehangatan rasa untuk keluarga Indonesia sejak 2020.
               </p>
               <div className="flex gap-4">
-                <a href="#" className="w-10 h-10 border border-[#1a4a2e]/10 rounded-full flex items-center justify-center hover:bg-[#1a4a2e] hover:text-white transition-all">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#1a4a2e]/10 rounded-full flex items-center justify-center hover:bg-[#1a4a2e] hover:text-white transition-all">
                   <Instagram size={18} />
                 </a>
-                <a href="#" className="w-10 h-10 border border-[#1a4a2e]/10 rounded-full flex items-center justify-center hover:bg-[#1a4a2e] hover:text-white transition-all">
+                <a href="https://wa.me/628982996666" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#1a4a2e]/10 rounded-full flex items-center justify-center hover:bg-[#1a4a2e] hover:text-white transition-all">
                   <Phone size={18} />
+                </a>
+                <a href="https://shopee.co.id/universal-link/now-food/shop/22399358?deep_and_deferred=1&shareChannel=whatsapp" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-[#1a4a2e]/10 rounded-full flex items-center justify-center hover:bg-[#ee4d2d] hover:text-white transition-all">
+                  <ShoppingCart size={18} />
                 </a>
               </div>
             </div>
@@ -233,7 +398,7 @@ const App = () => {
           </div>
           
           <div className="pt-12 border-t border-[#1a4a2e]/5 flex flex-col md:flex-row justify-between items-center gap-6">
-            <p className="text-[10px] font-bold text-[#1a4a2e]/30 uppercase tracking-widest">&copy; 2024 Pak Hari 2. Hak Cipta Dilindungi.</p>
+            <p className="text-[10px] font-bold text-[#1a4a2e]/30 uppercase tracking-widest">&copy; 2026 Pak Hari 2. Hak Cipta Dilindungi.</p>
             <div className="flex gap-8 text-[10px] font-bold text-[#1a4a2e]/30 uppercase tracking-widest">
               <a href="#">Kebijakan Privasi</a>
               <a href="#">Ketentuan Layanan</a>
@@ -241,6 +406,18 @@ const App = () => {
           </div>
         </div>
       </footer>
+      {/* Floating WhatsApp FAB */}
+      <a 
+        href="https://wa.me/628982996666" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed bottom-8 right-8 z-[60] bg-[#25D366] text-white p-5 rounded-full shadow-2xl hover:scale-110 active:scale-90 transition-all duration-300 group ring-4 ring-white/20 animate-bounce-slow"
+      >
+        <MessageCircle size={28} className="drop-shadow-lg" />
+        <span className="absolute right-full mr-4 bg-white text-[#1a4a2e] px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap shadow-xl opacity-0 group-hover:opacity-100 transition-opacity">
+          Pesan via WhatsApp
+        </span>
+      </a>
     </div>
   );
 };
